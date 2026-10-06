@@ -12,9 +12,15 @@ PDF → Markdown 전처리 → 청킹 → 임베딩(NVIDIA) → Qdrant 벡터 DB
 ## 3. 실행 결과
 - **페이지 수**: 16페이지 → **청크 수**: 34개 (chunk_size: 700, chunk_overlap: 120)
 - **Qdrant 컬렉션**: `civil_complaint_manual_medium` (points count: 34 / status: green / dim: 2048)
-- *(스크린샷 1: STEP 5 청킹 결과 화면)*
-- *(스크린샷 2: STEP 6 인덱싱 완료 화면)*
-- *(스크린샷 3: Qdrant 대시보드 컬렉션 확인 화면)*
+
+### [스크린샷 1] 청킹 실행 결과 (`medium chunk 수: 34`)
+![청킹 실행 결과](./images/screenshot1_chunking.png)
+
+### [스크린샷 2] Qdrant DB 색인(임베딩) 완료 (`points count: 34`, `status: green`)
+![Qdrant DB 색인 완료](./images/screenshot2_indexing.png)
+
+### [스크린샷 3] Qdrant 대시보드 컬렉션 확인
+![Qdrant 대시보드 컬렉션 확인](./images/screenshot3_qdrant_dashboard.png)
 
 ## 4. 검색 실험 결과 및 비교 분석
 직접 질문 3개를 선정하여 `search_test.py`로 유사도 검색을 수행하고 정답과 비교 분석하였다.
@@ -25,7 +31,9 @@ PDF → Markdown 전처리 → 청킹 → 임베딩(NVIDIA) → Qdrant 벡터 DB
 | **2** | 온라인 민원중 욕설을 하게 되면 어떻게 되나요? | **p.10** (경고문구 회신) / **p.13** (특이민원 정의) | **p.13** (유사도 0.756) | **1위** (공동 1위권 p.10) | '욕설'이라는 단어에 대해 법적 유형(폭언형 명예훼손·모욕 등)을 규정한 p.13과 온라인/서면 민원에 대한 법적조치 경고문구가 적힌 p.10(0.756)이 정확히 최상위로 검색됨. |
 | **3** | 민원 상담사에게 고백을 박으면 어떻게 되나요? | **p.13** (성희롱형 특이민원: 성적 수치심/사적 발언) | **p.13** (유사도 0.816) | **1위** (0.816) | 매뉴얼에 '고백을 박다'라는 직접적인 표현은 없으나, 시맨틱 임베딩 모델이 문맥상 업무 방해 및 '성희롱/특이민원' 맥락으로 의미를 정확히 파악하여 p.13과 p.6(반복전화 방해)을 최상위로 매칭함. 단어 불일치 상황에서도 의미 기반 검색이 뛰어남을 확인. |
 
-- *(스크린샷 4: 터미널 검색 실행 화면)*
+### [스크린샷 4] 내 질문 검색 실행 결과
+![터미널 검색 실행 결과 1](./images/screenshot4_search_terminal_1.png)
+![터미널 검색 실행 결과 2](./images/screenshot4_search_terminal_2.png)
 
 ## 5. 막힌 점 → 해결 (Troubleshooting)
 
